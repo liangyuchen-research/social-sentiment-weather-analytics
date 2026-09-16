@@ -1,9 +1,10 @@
-# Kubernetes Pipeline Linking Social Media Sentiment to Weather Data
+# Kubernetes Pipeline for Linking Social Media Sentiment with Daily Weather Data
 
 This project links sentiment in social media posts to daily weather observations
-in **Melbourne, Sydney and Brisbane**. It combines scheduled collection,
-historical backfill, text processing, Elasticsearch storage and a Fission REST
-API deployed on Melbourne Research Cloud. It was developed for Cluster and Cloud
+in **Melbourne, Sydney and Brisbane**. It combines API harvesting across three
+social media platforms, rate-limit handling, historical backfill, sentiment
+scoring, Elasticsearch storage and Fission REST APIs on Melbourne Research Cloud.
+Posts are matched to daily weather records by city and date. The project was developed for Cluster and Cloud
 Computing at the University of Melbourne.
 
 **This repository is an architecture case study based on the project report.**
