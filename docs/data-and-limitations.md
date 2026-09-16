@@ -16,8 +16,8 @@ and uneven geographic coverage may affect the observations.
 - The join matches many posts to the weather record for their city and date.
 
 The 13 May 2026 counts are 1,386,354 raw posts, 1,218,705 analytical posts and
-12,453 weather rows. The report provides the snapshot; the original live cluster
-has not been accessed or independently audited for this portfolio copy.
+12,453 weather rows. These counts are taken from the report. The original live
+cluster has not been queried for this release.
 
 ## Limitations described by the report
 

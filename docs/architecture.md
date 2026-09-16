@@ -1,7 +1,7 @@
 # Architecture and data flow
 
-This description summarizes the supplied project report. It is not a deployment
-guide and does not imply that source manifests are included.
+The architecture below is documented in the project report. Deployment files
+are not included in this repository.
 
 ## Collection
 
@@ -37,7 +37,5 @@ the report include analytical mode, city, platform and date range. The report
 names summary, post and daily aggregation views. Public endpoint addresses and
 authentication details are not published here.
 
-Reported modularity and platform capabilities should not be confused with
-measured service-level objectives. The available material does not establish
-load-tested throughput, guaranteed availability, or independently validated
-autoscaling behavior.
+The report does not include load-test results or measured service-level
+objectives for throughput, availability or autoscaling.

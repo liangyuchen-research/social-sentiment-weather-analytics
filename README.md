@@ -1,15 +1,15 @@
-# Social Media Sentiment and Weather Analytics
+# Kubernetes Pipeline Linking Social Media Sentiment to Weather Data
 
-**A report-based project case study.** This repository documents the architecture,
-scale and limitations of a University of Melbourne Cluster and Cloud Computing
-team project. Executable source and deployment manifests were not available in
-the supplied local files or through anonymous access to the original GitLab
-repository. No implementation has been reconstructed or presented as original code.
-
-The project links sentiment in social media posts to daily weather observations
+This project links sentiment in social media posts to daily weather observations
 in **Melbourne, Sydney and Brisbane**. It combines scheduled collection,
 historical backfill, text processing, Elasticsearch storage and a Fission REST
-API deployed on Melbourne Research Cloud.
+API deployed on Melbourne Research Cloud. It was developed for Cluster and Cloud
+Computing at the University of Melbourne.
+
+**This repository is an architecture case study based on the project report.**
+Implementation and deployment files are not included. The
+[original GitLab project](https://gitlab.unimelb.edu.au/YUMZHU/comp90024_team_2)
+requires authentication.
 
 ## System at a glance
 
@@ -33,7 +33,7 @@ flowchart LR
 | Functions | Fission harvesters, cleaning workflow and query API |
 | Storage | Elasticsearch raw posts, analytical posts and daily weather |
 | Analysis | VADER sentiment, city/date joins and Jupyter visualizations |
-| Collection | API rate-limit handling, incremental retrieval and historical backfill |
+| Collection | Reddit, Bluesky and Mastodon APIs, incremental retrieval and historical backfill |
 
 ## Reported data snapshot
 
@@ -46,16 +46,16 @@ The report records these counts on **13 May 2026**:
 | Daily weather rows | 12,453 |
 
 These are document counts in the reported deployment, not benchmark throughput
-or the number of unique users. Weather rows are matched to posts by city and
-date, so the join is not one weather row per post. The record counts were not
-independently queried during portfolio preparation.
+or the number of unique users. Posts are matched to weather by city and date,
+with multiple posts sharing a daily observation. The counts come from the
+project report rather than a new query of the original deployment.
 
 ## Project contribution
 
-The source report attributes **social media harvesting and historical backfill**
-to Liang-Yu Chen. It credits teammates for cloud deployment/API integration,
-weather processing, monitoring, and analysis. The complete contribution table
-is preserved in [AUTHORS.md](AUTHORS.md).
+Liang-Yu Chen developed **social media harvesting and historical backfill**.
+The report also credits teammates for cloud deployment and API integration,
+weather processing, monitoring, and analysis. See the
+[team contribution table](AUTHORS.md).
 
 ## Documentation
 
@@ -64,7 +64,5 @@ is preserved in [AUTHORS.md](AUTHORS.md).
 - [Source availability and reproduction status](docs/reproduction.md)
 - [Provenance and attribution](docs/provenance.md)
 
-Original project: [University GitLab repository](https://gitlab.unimelb.edu.au/YUMZHU/comp90024_team_2).
-Access may require university authentication. This case study does not include
-API credentials, private endpoint addresses, raw social posts, student IDs,
-or the full report.
+The case study covers the system design, processing stages, and reported data
+scale. It does not include a runnable service or redistribute raw social posts.

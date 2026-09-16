@@ -14,16 +14,9 @@
 - The original analytical notebooks and automated checks.
 - A dependency lockfile, reproducible deployment snapshot, and public data sample.
 
-Targeted filename and source-content searches across local Downloads, Documents
-and the OneDrive desktop did not locate a checkout or archive of this project.
-Anonymous Git access required authentication. No authentication bypass or
-unverified implementation was introduced.
-
-Consequently this repository contains documentation only. It cannot be run as
-a service and has no invented installation commands, requirements file or
-Dockerfile. The architecture records Kubernetes and Fission use, but the local
-evidence does not independently establish that the contributor authored a
-Docker image or Dockerfile.
+The original GitLab repository requires authentication, and no source checkout
+was available for this release. This repository therefore contains documentation
+only and cannot be deployed as a service.
 
 When the authorized original source becomes available, add a sanitized copy with
 its authorship and license notices, document exact dependencies and deployment

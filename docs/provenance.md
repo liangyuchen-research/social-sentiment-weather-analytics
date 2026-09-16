@@ -15,13 +15,11 @@ Evidence locations in the supplied PDF:
 | Index count snapshot | 8-9 |
 | Team contribution and AI assistance declaration | 27 |
 
-The PDF and extracted text were preserved unchanged in a separate local archive
-with SHA-256 checksums. The full report is not included in this repository
-because it contains student identifiers and shared material that is unnecessary
-for this focused portfolio summary.
+The full report is not included because it contains student identifiers.
+Its authorship and contribution table are summarized in [AUTHORS.md](../AUTHORS.md).
+The report also declares AI assistance with development, debugging, refactoring
+and writing, with design decisions and output review attributed to the team.
 
 The documentation paraphrases the source and preserves team attribution.
-No project license was supplied or obtained from the unavailable repository.
-No open-source license has been assigned to the original project, models,
-datasets or code. This repository does not grant rights to redistribute the
-upstream implementation or social data.
+No project license was available. This documentation does not grant rights to
+redistribute the upstream implementation or social data.
