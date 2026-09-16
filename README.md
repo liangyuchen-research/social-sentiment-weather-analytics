@@ -6,6 +6,10 @@ A distributed analytics system for collecting social media posts, scoring text s
 
 The repository includes the harvesting and cleaning implementations, REST API functions, Elasticsearch mappings, Kubernetes/Fission configuration, analysis notebooks, and automated tests.
 
+## My contribution
+
+A five-person team project. I built the data path end to end: rate-limit-aware harvesters for the Reddit, Bluesky and Mastodon APIs across three Australian cities, the historical backfill that pulled older posts without duplicating stored records, the join between sentiment scores for 1.22M filtered posts and 12.5K daily weather rows in Elasticsearch, and the Fission serverless functions that expose the combined dataset.
+
 ## Architecture
 
 ```text
