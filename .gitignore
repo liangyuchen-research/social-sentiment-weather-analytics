@@ -1,0 +1,13 @@
+.env
+.env.*
+secrets/
+credentials/
+data/
+artifacts/
+*.pdf
+*.csv
+*.jsonl
+*.parquet
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
