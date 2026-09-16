@@ -1,0 +1,18 @@
+# COMP90024 Team 2
+
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  name: pkg-harvest-reddit
+  namespace: default
+spec:
+  environment:
+    name: python39x
+    namespace: default
+  deployment:
+    type: url
+    url: archive://harvest-reddit-zip
+  source:
+    checksum: {}
+status:
+  buildstatus: none

@@ -1,0 +1,8 @@
+# COMP90024 Team 2
+
+# Fission spec metadata. Do not delete.
+# Generated baseline — `fission spec apply` reads everything in this dir.
+apiVersion: fission.io/v1
+kind: DeploymentConfig
+name: ccc-cities-team-2
+uid: ccc-cities-team-2

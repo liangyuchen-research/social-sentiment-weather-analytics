@@ -1,69 +1,87 @@
 # Kubernetes Pipeline for Linking Social Media Sentiment with Daily Weather Data
 
-This project links sentiment in social media posts to daily weather observations
-in **Melbourne, Sydney and Brisbane**. It combines API harvesting across three
-social media platforms, rate-limit handling, historical backfill, sentiment
-scoring, Elasticsearch storage and Fission REST APIs on Melbourne Research Cloud.
-Posts are matched to daily weather records by city and date. The project was developed for Cluster and Cloud
-Computing at the University of Melbourne.
+A distributed analytics system for collecting social media posts, scoring text sentiment, and matching posts to daily weather in Melbourne, Sydney, and Brisbane. Developed at the University of Melbourne for Cluster and Cloud Computing.
 
-**This repository is an architecture case study based on the project report.**
-Implementation and deployment files are not included. The
-[original GitLab project](https://gitlab.unimelb.edu.au/YUMZHU/comp90024_team_2)
-requires authentication.
+**Stack:** Kubernetes, Fission, Elasticsearch, Python, VADER, and Jupyter. The original deployment ran on Melbourne Research Cloud.
 
-## System at a glance
+The repository includes the harvesting and cleaning implementations, REST API functions, Elasticsearch mappings, Kubernetes/Fission configuration, analysis notebooks, and automated tests.
 
-```mermaid
-flowchart LR
-    S[Reddit, Bluesky, Mastodon] --> H[Scheduled social harvesters]
-    W[Bureau of Meteorology] --> WH[Weather harvester]
-    H --> R[Raw posts in Elasticsearch]
-    R --> C[Deduplication, normalization and VADER sentiment]
-    WH --> D[Daily weather by city and date]
-    C --> J[Join on city and date]
-    D --> J
-    J --> E[Analytical posts in Elasticsearch]
-    E --> A[Fission REST query API]
-    A --> N[Jupyter analysis and monitoring]
+## Architecture
+
+```text
+Reddit / Bluesky / Mastodon       Daily weather observations
+             |                              |
+             +----------- Harvesters --------+
+                              |
+              Normalize, deduplicate, score sentiment
+                              |
+                    Match by city and local date
+                              |
+          Elasticsearch: posts_raw / posts_clean / weather_daily
+                              |
+                     Fission REST query API
+                              |
+               Exploratory analysis and monitoring notebooks
 ```
 
-| Layer | Reported tools and purpose |
+The project report recorded **1,218,705 analytical posts** and **12,453 weather records** on 13 May 2026. These are historical dataset counts, not a throughput benchmark. Raw post collections and credentials are excluded from this public repository.
+
+## Quick start
+
+Use Python 3.12 for the validated local environment. Create and activate a virtual environment, then run:
+
+```bash
+python -m pip install -r requirements.txt
+python scripts/run_demo.py
+python -m pytest test -q
+```
+
+The demo runs the actual cleaning, VADER scoring, city/date weather join, and Elasticsearch document preparation on six synthetic posts. It uses a temporary directory and needs no credentials, API access, or cloud cluster. The automated tests use synthetic records and mocked services.
+
+## Run with collected data
+
+Copy `.env.example` to `.env` and supply credentials for the services you use. Run commands from the repository root:
+
+```bash
+python backend/harvesters/reddit_api.py --city melbourne --year 2025 --max-records 500
+python backend/harvesters/bom_weather.py --city melbourne --year 2025
+python backend/cleaning/clean_pipeline.py
+python database/bulk_upload.py --target posts_clean --dry-run
+```
+
+Data are stored under `data/raw/` and `data/cleaned/`. Set `SOCIAL_WEATHER_DATA_DIR` in the process environment to use another directory. The harvesting commands access external services and write per-city/year files. Keep previous collections in a separate data directory when starting a new run.
+
+For indexing, configure Elasticsearch in `.env`, create the mappings, and upload:
+
+```bash
+python database/setup_indices.py
+python database/bulk_upload.py --all
+```
+
+## Cloud deployment and analysis
+
+[Infrastructure setup](installation/installation.md) covers Kubernetes, Elasticsearch, and Fission. [Function deployment](backend/fission/README.md) documents package builds, secrets, routes, and scheduled ingestion. Deployment requires your own authorized cluster and API credentials.
+
+To use the analysis notebooks:
+
+```bash
+python -m pip install -r requirements-notebooks.txt
+jupyter lab frontend/
+```
+
+The notebooks expect a populated Fission query API. Its default local address is `http://localhost:9090/api/query`, reachable through the documented router port-forward. Set `ANALYTICS_API_URL` before starting the notebook kernel to use another endpoint.
+
+## Repository guide
+
+| Directory | Contents |
 | --- | --- |
-| Infrastructure | Melbourne Research Cloud, OpenStack, Kubernetes |
-| Functions | Fission harvesters, cleaning workflow and query API |
-| Storage | Elasticsearch raw posts, analytical posts and daily weather |
-| Analysis | VADER sentiment, city/date joins and Jupyter visualizations |
-| Collection | Reddit, Bluesky and Mastodon APIs, incremental retrieval and historical backfill |
+| [backend/harvesters](backend/harvesters/README.md) | Social API collectors, historical backfill, and weather observations |
+| [backend/cleaning](backend/cleaning/README.md) | Text normalization, language filtering, sentiment scoring, and weather joins |
+| [backend/fission](backend/fission/README.md) | Five serverless functions, package builder, routes, timers, and deployment specifications |
+| [database](database/README.md) | Elasticsearch client, index mappings, and streaming bulk upload |
+| [frontend](frontend/) | Exploratory analysis and Melbourne monitoring notebooks |
+| [installation](installation/installation.md) | Cluster, storage, Elasticsearch, and Kibana configuration |
+| [test](test/) | Unit, integration, data-quality, and API smoke checks |
+| [scripts](scripts/) | Offline demonstration and validation helpers |
 
-## Reported data snapshot
-
-The report records these counts on **13 May 2026**:
-
-| Index | Records |
-| --- | ---: |
-| Raw social posts | 1,386,354 |
-| Filtered, deduplicated analytical posts | 1,218,705 |
-| Daily weather rows | 12,453 |
-
-These are document counts in the reported deployment, not benchmark throughput
-or the number of unique users. Posts are matched to weather by city and date,
-with multiple posts sharing a daily observation. The counts come from the
-project report rather than a new query of the original deployment.
-
-## Project contribution
-
-Liang-Yu Chen developed **social media harvesting and historical backfill**.
-The report also credits teammates for cloud deployment and API integration,
-weather processing, monitoring, and analysis. See the
-[team contribution table](AUTHORS.md).
-
-## Documentation
-
-- [Architecture and data flow](docs/architecture.md)
-- [Data interpretation and limitations](docs/data-and-limitations.md)
-- [Source availability and reproduction status](docs/reproduction.md)
-- [Provenance and attribution](docs/provenance.md)
-
-The case study covers the system design, processing stages, and reported data
-scale. It does not include a runnable service or redistribute raw social posts.
+See [reproduction and validation](docs/reproduction.md), [data interpretation](docs/data-and-limitations.md), and [source provenance](docs/provenance.md). Contributor attribution is recorded in [AUTHORS.md](AUTHORS.md).

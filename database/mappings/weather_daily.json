@@ -1,0 +1,25 @@
+{
+  "settings": {
+    "number_of_shards":   1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "dynamic": "true",
+    "properties": {
+      "city":       { "type": "keyword" },
+      "station":    { "type": "keyword" },
+      "date":       { "type": "date", "format": "yyyy-MM-dd||strict_date_optional_time" },
+      "year":       { "type": "integer" },
+      "tavg":       { "type": "float" },
+      "tmin":       { "type": "float" },
+      "tmax":       { "type": "float" },
+      "prcp":       { "type": "float" },
+      "snow":       { "type": "float" },
+      "wdir":       { "type": "float" },
+      "wspd":       { "type": "float" },
+      "wpgt":       { "type": "float" },
+      "pres":       { "type": "float" },
+      "tsun":       { "type": "float" }
+    }
+  }
+}

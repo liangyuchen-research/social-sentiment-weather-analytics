@@ -1,0 +1,6 @@
+# COMP90024 Team 2
+
+kind: ArchiveUploadSpec
+name: clean-posts-zip
+include:
+  - clean_posts.zip

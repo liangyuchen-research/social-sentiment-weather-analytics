@@ -1,0 +1,61 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "analysis": {
+      "analyzer": {
+        "english_clean": {
+          "tokenizer": "standard",
+          "filter": ["lowercase", "english_stop", "english_stemmer"]
+        }
+      },
+      "filter": {
+        "english_stop":    { "type": "stop",    "stopwords": "_english_" },
+        "english_stemmer": { "type": "stemmer", "language":  "english"   }
+      }
+    }
+  },
+  "mappings": {
+    "dynamic": "strict",
+    "properties": {
+      "platform":      { "type": "keyword" },
+      "city":          { "type": "keyword" },
+      "id":            { "type": "keyword" },
+      "author":        { "type": "keyword" },
+
+      "text_raw":      { "type": "text",  "index": false },
+      "text":          { "type": "text",  "analyzer": "english_clean", "fields": { "raw": { "type": "keyword", "ignore_above": 256 } } },
+
+      "created_utc":   { "type": "date" },
+      "created_local": { "type": "date" },
+      "date_local":    { "type": "date",  "format": "yyyy-MM-dd" },
+      "hour_local":    { "type": "date" },
+      "year":          { "type": "integer" },
+
+      "lang":          { "type": "keyword" },
+      "engagement":    { "type": "integer" },
+
+      "sentiment":       { "type": "float" },
+      "sentiment_label": { "type": "keyword" },
+
+      "weather_joined":  { "type": "boolean" },
+      "weather_date":    { "type": "date", "format": "yyyy-MM-dd" },
+      "weather_station": { "type": "keyword" },
+      "bom_station_id":  { "type": "keyword" },
+
+      "tavg":   { "type": "float" },
+      "tmin":   { "type": "float" },
+      "tmax":   { "type": "float" },
+      "prcp":   { "type": "float" },
+      "snow":   { "type": "float" },
+      "wdir":   { "type": "float" },
+      "wspd":   { "type": "float" },
+      "wpgt":   { "type": "float" },
+      "pres":   { "type": "float" },
+      "tsun":   { "type": "float" },
+
+      "url":   { "type": "keyword", "index": false },
+      "cleaned_at": { "type": "date" }
+    }
+  }
+}

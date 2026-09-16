@@ -1,0 +1,42 @@
+# COMP90024 Team 2
+
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  name: harvest-reddit
+  namespace: default
+spec:
+  environment:
+    name: python39x
+    namespace: default
+  secrets:
+    - name: es-creds
+      namespace: default
+  package:
+    packageref:
+      name: pkg-harvest-reddit
+      namespace: default
+    functionName: main
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: poolmgr
+      MinScale: 1
+      MaxScale: 5         # auto-scale up to 5 concurrent harvests for the demo
+    StrategyType: execution
+  functionTimeout: 600    # 10 min — Arctic Shift can be slow for big years
+  idletimeout: 120
+  concurrency: 5
+  requestsPerPod: 1
+  podspec:
+    containers:
+      - name: harvest-reddit
+        envFrom:
+          - secretRef:
+              name: es-creds

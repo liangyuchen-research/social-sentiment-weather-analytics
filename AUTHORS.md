@@ -1,13 +1,11 @@
-# Project contributors
+# Contributors
 
-The report's contribution table credits the following members:
+This project was developed for Cluster and Cloud Computing at the University of Melbourne. The original submission lists:
 
-| Contributor | Main contribution stated in the report |
-| --- | --- |
-| Andy Zhu | Kubernetes deployment, Fission configuration, API integration |
-| Liang-Yu Chen | Social media harvesting and historical backfill |
-| Shuhuan Zeng | Real-time Melbourne monitor, Scenario 7 notebook and visualization |
-| Yanke Liu | Weather data collection, cleaning pipeline, Elasticsearch mappings |
-| Zile Fan | Exploratory analysis, plots, report integration |
+- Andy Zhu
+- Liang-Yu Chen
+- Shuhuan Zeng
+- Yanke Liu
+- Zile Fan
 
-Source: the contribution table in the project report, page 27.
+Liang-Yu Chen maintains this public copy. It retains the original project architecture and contributor attribution, with portability fixes, dependency guidance, and additional regression checks. Student identifiers and private deployment settings are excluded.

@@ -1,0 +1,42 @@
+# COMP90024 Team 2
+
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  name: harvest-weather
+  namespace: default
+spec:
+  environment:
+    name: python39x
+    namespace: default
+  secrets:
+    - name: es-creds
+      namespace: default
+  package:
+    packageref:
+      name: pkg-harvest-weather
+      namespace: default
+    functionName: main
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: poolmgr
+      MinScale: 1
+      MaxScale: 2
+    StrategyType: execution
+  functionTimeout: 300
+  idletimeout: 120
+  concurrency: 2
+  requestsPerPod: 1
+  podspec:
+    containers:
+      - name: harvest-weather
+        envFrom:
+          - secretRef:
+              name: es-creds

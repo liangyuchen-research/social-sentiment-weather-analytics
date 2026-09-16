@@ -1,0 +1,40 @@
+# COMP90024 Team 2
+
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  name: clean-posts
+  namespace: default
+spec:
+  environment:
+    name: python39x
+    namespace: default
+  secrets:
+    - name: es-creds
+      namespace: default
+  package:
+    packageref:
+      name: pkg-clean-posts
+      namespace: default
+    functionName: main
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: poolmgr
+      MinScale: 1
+      MaxScale: 3
+    StrategyType: execution
+  functionTimeout: 300
+  idletimeout: 120
+  podspec:
+    containers:
+      - name: clean-posts
+        envFrom:
+          - secretRef:
+              name: es-creds

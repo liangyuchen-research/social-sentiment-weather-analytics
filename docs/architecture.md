@@ -1,41 +1,21 @@
 # Architecture and data flow
 
-The architecture below is documented in the project report. Deployment files
-are not included in this repository.
+The repository supports local batch processing and Fission functions deployed on Kubernetes.
 
 ## Collection
 
-Social harvesters gather Reddit, Bluesky and Mastodon posts associated with
-Melbourne, Sydney and Brisbane. The reported collection workflow supports
-incremental ingestion and historical Reddit backfill, handles platform rate
-limits, and records platform and city information for downstream grouping.
+Reddit collection uses the Arctic Shift archive API. The local Bluesky collector uses the atproto client, while the Fission collector calls the Bluesky HTTP APIs directly. Mastodon supports public hashtag timelines or authenticated search. Posts are tagged using city-specific queries for Melbourne, Sydney, and Brisbane. Local weather collection retrieves daily observations from configured WMO stations through Meteostat; the Fission weather function uses Open-Meteo and stores its source explicitly.
 
-A separate harvester obtains daily Bureau of Meteorology observations. Weather
-records are normalized into a city/date structure suitable for analytical joins.
+Collection coverage depends on each service and the requested date window. The configuration retains the 2016–2026 study period, but this does not imply that every platform supplies data for every year.
 
-## Processing and storage
+## Processing
 
-Elasticsearch separates raw social records from analytical records. The cleaning
-workflow normalizes text and dates, filters English-language posts, removes
-duplicates, and computes VADER sentiment scores. Analytical posts are enriched
-with daily weather values using city and date as the matching fields.
+The local pipeline normalizes text, removes duplicates, filters language, converts timestamps to each city's local date, and computes VADER sentiment. It joins posts to daily weather using city and local date. VADER is a rule-based text sentiment method.
 
-The report describes three principal indexes: `posts_raw`, `posts_clean`, and
-`weather_daily`. VADER is a rule-based sentiment tool, not a model fine-tuned
-within this project. Its scores measure text sentiment rather than clinical
-mental health or the emotional state of every resident in a city.
+Three Elasticsearch indexes separate raw records, analytical posts, and daily weather: `posts_raw`, `posts_clean`, and `weather_daily`. Bulk upload uses deterministic document identifiers and streams records in bounded batches.
 
-## Cloud services and access
+## Services
 
-The reported Kubernetes cluster has one master and three worker nodes on
-Melbourne Research Cloud. Fission functions divide the workflow into social
-collection, weather collection, cleaning and API queries. Elasticsearch stores
-the records and performs aggregation.
+Five Fission functions implement social collection, Reddit collection, weather collection, incremental cleaning, and analytical queries. The REST query API provides health, summary, post, daily, and temperature-bucket views for the Jupyter notebooks. Routes and timers are under `backend/fission/specs/`.
 
-The query API serves JSON to Jupyter notebooks. Query parameters described in
-the report include analytical mode, city, platform and date range. The report
-names summary, post and daily aggregation views. Public endpoint addresses and
-authentication details are not published here.
-
-The report does not include load-test results or measured service-level
-objectives for throughput, availability or autoscaling.
+The original deployment used Melbourne Research Cloud. The published manifests require an authorized Kubernetes environment, available storage classes, and operator-managed credentials. No public live service is maintained by this repository.

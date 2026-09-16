@@ -1,0 +1,6 @@
+# COMP90024 Team 2
+
+kind: ArchiveUploadSpec
+name: harvest-reddit-zip
+include:
+  - harvest_reddit.zip

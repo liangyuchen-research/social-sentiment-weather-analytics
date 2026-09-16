@@ -1,0 +1,21 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elasticsearch
+  namespace: elastic
+spec:
+  version: 9.2.4
+  nodeSets:
+    - name: default
+      count: 2
+      config:
+        node.roles: ["master", "data", "ingest"]
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 100Gi
+            storageClassName: perfretain

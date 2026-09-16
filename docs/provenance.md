@@ -1,25 +1,9 @@
-# Provenance and licensing
+# Source provenance
 
-Source: *Cluster and Cloud Computing Assignment 2: Weather and Social Media
-Sentiment Across Australian Cities*, Team 2, University of Melbourne, 2026.
+The implementation was recovered from the authenticated [original GitLab project](https://gitlab.unimelb.edu.au/YUMZHU/comp90024_team_2), revision `082683a21496c3ac153483edf97ff34de36bcce4`, on 17 September 2026. The complete original archive, including data and the submission report, is preserved separately from this public repository.
 
-Evidence locations in the supplied PDF:
+All executable source folders, deployment specifications, analysis notebooks, and tests are included here. Public-copy maintenance corrects entry-point imports and shared data paths, removes student identifiers and saved notebook outputs, and adds regression checks. Empty placeholder directories and collected social datasets are excluded.
 
-| Topic | PDF page |
-| --- | --- |
-| Project authors and original repository | 1 |
-| System goals and data sources | 2 |
-| Architecture and Melbourne Research Cloud | 3 |
-| Kubernetes and Fission | 4-5 |
-| Data matching and sentiment processing | 7-8 |
-| Index count snapshot | 8-9 |
-| Team contribution and AI assistance declaration | 27 |
+The project report supplies the historical dataset counts and Melbourne Research Cloud deployment context. Public documentation describes the implementation and distinguishes offline validation from live deployment. No new experiment results or service benchmarks are claimed.
 
-The full report is not included because it contains student identifiers.
-Its authorship and contribution table are summarized in [AUTHORS.md](../AUTHORS.md).
-The report also declares AI assistance with development, debugging, refactoring
-and writing, with design decisions and output review attributed to the team.
-
-The documentation paraphrases the source and preserves team attribution.
-No project license was available. This documentation does not grant rights to
-redistribute the upstream implementation or social data.
+The original source did not include a standalone software license. No additional license grant is made here. Contributor attribution is retained in [AUTHORS.md](../AUTHORS.md), and external packages retain their respective licenses.

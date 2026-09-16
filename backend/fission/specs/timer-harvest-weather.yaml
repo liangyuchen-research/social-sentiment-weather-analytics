@@ -1,0 +1,14 @@
+# COMP90024 Team 2
+
+# Refresh recent daily weather every 10 minutes.
+# Default function mode fetches the last 7 days for all 3 cities.
+apiVersion: fission.io/v1
+kind: TimeTrigger
+metadata:
+  name: timer-harvest-weather-every-10min
+  namespace: default
+spec:
+  cron: "*/10 * * * *"
+  functionref:
+    type: name
+    name: harvest-weather

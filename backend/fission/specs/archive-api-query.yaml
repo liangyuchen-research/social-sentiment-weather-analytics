@@ -1,0 +1,6 @@
+# COMP90024 Team 2
+
+kind: ArchiveUploadSpec
+name: api-query-zip
+include:
+  - api_query.zip

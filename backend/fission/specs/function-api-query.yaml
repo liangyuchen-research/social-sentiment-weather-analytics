@@ -1,0 +1,40 @@
+# COMP90024 Team 2
+
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  name: api-query
+  namespace: default
+spec:
+  environment:
+    name: python39x
+    namespace: default
+  secrets:
+    - name: es-creds
+      namespace: default
+  package:
+    packageref:
+      name: pkg-api-query
+      namespace: default
+    functionName: main
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: poolmgr
+      MinScale: 1
+      MaxScale: 5         # scale up under notebook load
+    StrategyType: execution
+  functionTimeout: 60
+  idletimeout: 60
+  podspec:
+    containers:
+      - name: api-query
+        envFrom:
+          - secretRef:
+              name: es-creds

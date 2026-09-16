@@ -28,6 +28,6 @@ cluster has not been queried for this release.
 - Manually integrating Kubernetes, Fission and Elasticsearch increased debugging
   and deployment complexity.
 
-Raw posts and user identifiers are omitted. Future reproduction requires
+Raw posts and user identifiers are omitted. New data collection requires
 authorized access to source APIs and data, appropriate treatment of platform
 terms, and a review of the original project configuration.

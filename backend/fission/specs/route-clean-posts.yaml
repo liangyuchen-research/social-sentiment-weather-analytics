@@ -1,0 +1,15 @@
+# COMP90024 Team 2
+
+# Background transformation, scheduled independently of the harvesters.
+apiVersion: fission.io/v1
+kind: HTTPTrigger
+metadata:
+  name: route-clean-posts
+  namespace: default
+spec:
+  host: ""
+  relativeurl: /ingest/clean-posts
+  method: POST
+  functionref:
+    type: name
+    name: clean-posts

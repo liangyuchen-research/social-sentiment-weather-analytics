@@ -1,0 +1,19 @@
+# COMP90024 Team 2
+
+# Run all social harvesters every minute.
+# Function defaults to mode=incremental, hours=2 (2-hour overlap window),
+# include_comments=true, and include_replies=true.
+# Stable document IDs avoid repeated writes creating extra documents.
+# This is the original demonstration cadence. Runs can overlap; review the
+# schedule against source API limits and observed invocation duration before
+# enabling it in a new deployment. No platform rate limit is assumed here.
+apiVersion: fission.io/v1
+kind: TimeTrigger
+metadata:
+  name: timer-harvest-social-every-10min      # name kept for spec idempotency; cron now 1-min
+  namespace: default
+spec:
+  cron: "* * * * *"
+  functionref:
+    type: name
+    name: harvest-social

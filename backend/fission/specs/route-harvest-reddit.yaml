@@ -1,0 +1,16 @@
+# COMP90024 Team 2
+
+# Background ingestion — manual or timer-triggered.
+# NOT used by the frontend notebook.
+apiVersion: fission.io/v1
+kind: HTTPTrigger
+metadata:
+  name: route-harvest-reddit
+  namespace: default
+spec:
+  host: ""
+  relativeurl: /ingest/harvest-reddit
+  method: POST
+  functionref:
+    type: name
+    name: harvest-reddit

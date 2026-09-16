@@ -1,0 +1,47 @@
+# COMP90024 Team 2
+
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  name: harvest-social
+  namespace: default
+spec:
+  environment:
+    name: python39x
+    namespace: default
+  secrets:
+    - name: es-creds
+      namespace: default
+    - name: social-creds
+      namespace: default
+  package:
+    packageref:
+      name: pkg-harvest-social
+      namespace: default
+    functionName: main
+  resources:
+    requests:
+      cpu: 300m
+      memory: 384Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: poolmgr
+      MinScale: 1
+      MaxScale: 3
+    StrategyType: execution
+  functionTimeout: 900
+  idletimeout: 120
+  concurrency: 3
+  requestsPerPod: 1
+  podspec:
+    containers:
+      - name: harvest-social
+        envFrom:
+          - secretRef:
+              name: es-creds
+          - secretRef:
+              name: social-creds
+              optional: true
