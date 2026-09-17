@@ -1,5 +1,7 @@
 # Kubernetes Pipeline for Linking Social Media Sentiment with Daily Weather Data
 
+[![Pipeline checks](https://github.com/liangyuchen-research/social-sentiment-weather-analytics/actions/workflows/checks.yml/badge.svg)](https://github.com/liangyuchen-research/social-sentiment-weather-analytics/actions/workflows/checks.yml)
+
 A distributed analytics system for collecting social media posts, scoring text sentiment, and matching posts to daily weather in Melbourne, Sydney, and Brisbane. Developed at the University of Melbourne for Cluster and Cloud Computing.
 
 **Stack:** Kubernetes, Fission, Elasticsearch, Python, VADER, and Jupyter. The original deployment ran on Melbourne Research Cloud.
@@ -12,20 +14,17 @@ A five-person team project. I built the data path end to end: rate-limit-aware h
 
 ## Architecture
 
-```text
-Reddit / Bluesky / Mastodon       Daily weather observations
-             |                              |
-             +----------- Harvesters --------+
-                              |
-              Normalize, deduplicate, score sentiment
-                              |
-                    Match by city and local date
-                              |
-          Elasticsearch: posts_raw / posts_clean / weather_daily
-                              |
-                     Fission REST query API
-                              |
-               Exploratory analysis and monitoring notebooks
+```mermaid
+flowchart TB
+    R[Reddit API] --> H
+    B[Bluesky API] --> H
+    M[Mastodon API] --> H
+    W[Daily weather observations] --> H
+    H[Harvesters — rate-limit aware, historical backfill<br/>Fission functions on timers] --> C[Normalize, deduplicate, language-filter, VADER sentiment]
+    C --> J[Match posts to weather by city and local date]
+    J --> E[(Elasticsearch<br/>posts_raw · posts_clean · weather_daily)]
+    E --> Q[Fission REST query API]
+    Q --> N[Exploratory analysis and monitoring notebooks]
 ```
 
 The project report recorded **1,218,705 analytical posts** and **12,453 weather records** on 13 May 2026. These are historical dataset counts, not a throughput benchmark. Raw post collections and credentials are excluded from this public repository.
